@@ -24,6 +24,7 @@ printf '                                                             \n';
 function doIt() {
 	rsync --exclude ".git/" \
 		--exclude ".DS_Store" \
+		--exclude ".github/" \
         --exclude ".gitignore" \
 		--exclude "bootstrap.sh" \
 		--exclude "README.md" \

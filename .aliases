@@ -158,6 +158,3 @@ alias ohmyzsh="vim ~/.oh-my-zsh"
 # Alias to load a directory
 alias cdw="waow"
 
-# Alias to print Home Assistant logs
-alias hass_log="multitail -F /Users/legovaer/.multitail.conf -cS hass -l `ssh -l ${HASSIO_SSH_PRIVILEGED_USER} ${HASSIO_IP} tail -n 20 -f /root/config/home-assistant.log | cut -c 12-`"
-

@@ -91,7 +91,6 @@ Suggestions/improvements
 
 ## Author
 
-mathias "Follow @mathias on Twitter") |
 |---|
 | Levi Govaerts |
 | [Mathias Bynens](https://mathiasbynens.be/) (original author)|

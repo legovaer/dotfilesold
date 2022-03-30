@@ -7,8 +7,8 @@ done;
 unset file;
 
 # Load fzf if it is installed.
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+#[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+#[ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
 # Case-insensitive globbing (used in pathname expansion)
 shopt -s nocaseglob;

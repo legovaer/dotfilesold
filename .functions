@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 # Mount my home assistant configuration
 hass_mount() {
@@ -25,7 +25,6 @@ tm() {
 
 # Custom fuzzy Z functions
 # Check https://github.com/junegunn/fzf/wiki/Examples#z
-unalias z
 z() {
   if [[ -z "$*" ]]; then
     cd "$(_z -l 2>&1 | fzf +s --tac | sed 's/^[0-9,.]* *//')"
@@ -87,40 +86,39 @@ _fzf_complete_git_post() {
 # CD to the Project dir of Client A
 
 # Function delegater for cd'ing into client directories.
-_cd_client_a() { cd $HOME/GitHub/$CLIENT_A_FULL_NAME/$1 }
+_cd_client_a() {
+    cd $HOME/GitHub/$CLIENT_A_FULL_NAME/$1
+}
 
 # Create function for client A
 typeset $CLIENT_A_SLUG=_cd_client_a
 
 # Add extra functionality for hub.
-if which hub &> /dev/null; then
-    repos() {
+repos() {
     local owner="${1?}"
     shift 1
     hub api --paginate graphql -f owner="$owner" "$@" -f query='
         query($owner: String!, $per_page: Int = 100, $endCursor: String) {
-        repositoryOwner(login: $owner) {
-            repositories(first: $per_page, after: $endCursor, ownerAffiliations: OWNER) {
-            nodes {
-                nameWithOwner
+            repositoryOwner(login: $owner) {
+                repositories(first: $per_page, after: $endCursor, ownerAffiliations: OWNER) {
+                    nodes {
+                        nameWithOwner
+                    }
+                    pageInfo {
+                        hasNextPage
+                        endCursor
+                    }
+                }
             }
-            pageInfo {
-                hasNextPage
-                endCursor
-            }
-            }
-        }
         }
     '
-    }
+}
 
-    # List all repositories under the <OWNER> GitHub account.
-    hub-repos() {
+# List all repositories under the <OWNER> GitHub account.
+hub-repos() {
     repos "$@" -t | awk '/\.nameWithOwner/ { print $(NF) }'
-    }
+}
 
-    # Create function for client A
-    _client_a_repos() { hub-repos $CLIENT_A_FULL_NAME }
-    _client_a_repos_funcname="${CLIENT_A_SLUG}-repos"
-    typeset $_client_a_repos_funcname=_client_a_repos
-fi
+hass_log() {
+    multitail -F /Users/legovaer/.multitail.conf -cS hass -l "ssh -l ${HASSIO_SSH_PRIVILEGED_USER} ${HASSIO_IP} tail -n 20 -f /root/config/home-assistant.log | cut -c 12-"
+}
